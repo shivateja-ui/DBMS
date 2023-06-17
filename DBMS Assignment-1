@@ -1,0 +1,27 @@
+1.Count the number of Salespeople whose name begins with 'a' or 'A':
+SELECT COUNT(*) AS NumSalespeople
+FROM SalesPeople
+WHERE UPPER(Sname) LIKE 'A%' OR UPPER(Sname) LIKE 'a%';
+
+2.Display all the Salespeople whose total orders' worth is more than Rs. 2000:
+SELECT S.Snum, S.Sname
+FROM SalesPeople AS S
+INNER JOIN Orders AS O ON S.Snum = O.Snum
+GROUP BY S.Snum, S.Sname
+HAVING SUM(O.Amt) > 2000;
+
+3.Count the number of Salespeople belonging to New York:
+SELECT COUNT(*) AS NumSalespeople
+FROM SalesPeople
+WHERE City = 'New York';
+
+4.Display the number of Salespeople belonging to London and the number of Salespeople belonging to Paris:
+SELECT
+  (SELECT COUNT(*) FROM SalesPeople WHERE City = 'London') AS NumSalespeopleLondon,
+  (SELECT COUNT(*) FROM SalesPeople WHERE City = 'Paris') AS NumSalespeopleParis;
+
+5.Display the number of orders taken by each Salesperson and their date of orders:
+SELECT S.Snum, S.Sname, COUNT(*) AS NumOrders
+FROM SalesPeople AS S
+INNER JOIN Orders AS O ON S.Snum = O.Snum
+GROUP BY S.Snum, S.Sname, O.Odate;
